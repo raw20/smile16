@@ -1,102 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context="com.js.firebaseauthentication.MainActivity">
 
     <TextView
-        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Hello"
-        android:textSize="30sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="50dp"
+        android:textSize="23dp"
+        android:textColor="@color/colorAccent"
+        android:text="회원가입" />
 
     <TextView
-        android:id="@+id/p_id"
+        android:layout_gravity="center_horizontal"
+        android:text="이 앱은 회원가입을 해야 정상적으로 사용할 수 있습니다.\n Email로 등록해 주세요."
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="아이디"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:hint="이메일"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="250dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="비밀번호"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="250dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="이름"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editTextNickName"
+        android:layout_width="250dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="닉네임"
+        android:inputType="text" />
+
+    <RadioGroup
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/GenderGroup"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="남자"
+            android:id="@+id/Man"
+            android:layout_weight="1"
+            android:checked="true"/>
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="여자"
+            android:id="@+id/WoMan"
+            android:layout_weight="1" />
+    </RadioGroup>
+
+    <Spinner
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:id="@+id/spinnerMajor"/>
+    <ImageView
+        android:id="@+id/userPhoto"
+        android:background="#eee"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center_horizontal"/>
+    <Button
+        android:id="@+id/buttonPhoto"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="사진등록 (선택)" />
+
+    <Button
+        android:id="@+id/buttonSignup"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_gravity="center_horizontal"
+        android:text="가입하기" />
 
     <TextView
-        android:id="@+id/p_pw"
-        android:layout_width="wrap_content"
+        android:text="회원이시면 여기에서 로그인 해주세요."
+        android:id="@+id/textViewSignin"
+        android:textAlignment="center"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        android:gravity="center_horizontal" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/textviewMessage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="비밀번호"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/p_id" />
 
-    <!--        app:layout_constraintVertical_bias="0.257" />-->
+</LinearLayout>
 
-    <!--    <Button-->
-    android:id="@+id/button"
-    android:layout_width="130dp"
-    android:layout_height="41dp"
-    android:text="로그인"
-    tools:layout_editor_absoluteX="140dp"
-    tools:layout_editor_absoluteY="363dp" />
-
-    <!--    <Button-->
-    android:id="@+id/button2"
-    android:layout_width="133dp"
-    android:layout_height="50dp"
-    android:text="회원가입"
-    tools:layout_editor_absoluteX="140dp"
-    tools:layout_editor_absoluteY="431dp" />
-
-    <!--    <Button-->
-    android:id="@+id/button3"
-    android:layout_width="129dp"
-    android:layout_height="58dp"
-    android:text="아이디/비밀번호 찾기"
-    tools:layout_editor_absoluteX="140dp"
-    tools:layout_editor_absoluteY="515dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>

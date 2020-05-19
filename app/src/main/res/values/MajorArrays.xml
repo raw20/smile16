@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Major">
+        <item>스마트정보통신공학과</item>
+        <item>간호학과</item>
+        <item>연극</item>
+        <item>패션디자인</item>
+    </string-array>
+</resources>

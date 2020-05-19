@@ -1,76 +1,108 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LoginActivity extends AppCompatActivity {
-    private EditText et_id, et_pw;
-    private Button btn_loginbutton, btn_register;
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    EditText editTextEmail;
+    EditText editTextPassword;
+    Button buttonSignin;
+    TextView textviewSingin;
+    TextView textviewMessage;
+    TextView textviewFindPassword;
+    ProgressDialog progressDialog;
+    //define firebase object
+    FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        et_id = findViewById(R.id.et_id);
-        et_pw = findViewById(R.id.et_pw);
-        btn_loginbutton = findViewById(R.id.btn_loginbutton);
-        btn_register = findViewById(R.id.btn_register);
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() != null) {
+            //이미 로그인 되었다면 이 액티비티를 종료함
+            finish();
+            //그리고 profile 액티비티를 연다.
+            startActivity(new Intent(getApplicationContext(), RegisterActivity.class)); //추가해 줄 ProfileActivity
+        }
 
-        btn_register.setOnClickListener(new View.OnClickListener() {
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        textviewSingin = (TextView) findViewById(R.id.textViewSignin);
+        textviewMessage = (TextView) findViewById(R.id.textviewMessage);
+        textviewFindPassword = (TextView) findViewById(R.id.textViewFindpassword);
+        buttonSignin = (Button) findViewById(R.id.buttonSignup);
+        progressDialog = new ProgressDialog(this);
+        buttonSignin.setOnClickListener(this);
+        textviewSingin.setOnClickListener(this);
+        textviewFindPassword.setOnClickListener(this);
+    }
+
+    private void userLogin(){
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "email을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(password)){
+            Toast.makeText(this, "password를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        progressDialog.setMessage("로그인중입니다..");
+        progressDialog.show();
+
+        firebaseAuth.signInWithEmailAndPassword(email,password)
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressDialog.dismiss();
+                if (task.isSuccessful()){
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                }else{
+                    Toast.makeText(getApplicationContext(), "로그인 실패!", Toast.LENGTH_LONG).show();
+                    textviewMessage.setText("로그인 실패 유형\n - password가 맞지 않습니다.\n -서버에러");
+                }
             }
         });
-        btn_loginbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //EditExt에 현재 입력되어있는 값을 가져온다.
-                String userID = et_id.getText().toString();
-                String userPW = et_pw.getText().toString();
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-                            if (success){ // 성공
-                                String userID = jsonObject.getString("Uid");
-                                String userPW = jsonObject.getString("Password");
-                                Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("Uid",userID);
-                                intent.putExtra("Password",userPW);
-                                startActivity(intent);
-                            }else{
-                                Toast.makeText(getApplicationContext(),"로그인 실패!", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-               LoginRequest loginRequest = new LoginRequest(userID, userPW, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
-            }
-        });
+    }
+    @Override
+    public void onClick(View v){
+        if(v == buttonSignin) {
+            userLogin();
+        }
+        if (v == textviewSingin){
+            finish();
+            startActivity(new Intent(this, MainActivity.class));
+        }
+        if (v == textviewFindPassword){
+            finish();
+            startActivity(new Intent(this, FindActivity.class));
+        }
     }
 }
