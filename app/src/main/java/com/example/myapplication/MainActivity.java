@@ -3,13 +3,10 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,10 +24,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static  final  int PICK_IMAGE_REQUST = 1;
     EditText editTextEmail;
     EditText editTextPassword;
     EditText editTextName, editTextNickName;
@@ -38,12 +41,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textviewSingin;
     TextView textviewMessage;
     ImageView userPhoto;
+    RadioButton Man, WoMan;
     ProgressDialog progressDialog;
     //define firebase object
     FirebaseAuth firebaseAuth;
-    Uri uri;
+
+    String email, name, nickname;
+    String gender = "";
+    private DatabaseReference mPostReference;
     private ArrayAdapter adapter;
     private Spinner spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,24 +72,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextNickName = (EditText) findViewById(R.id.editTextNickName);
+        Man = (RadioButton) findViewById(R.id.Man);
+        WoMan= (RadioButton) findViewById(R.id.WoMan);
         textviewSingin= (TextView) findViewById(R.id.textViewSignin);
         textviewMessage = (TextView) findViewById(R.id.textviewMessage);
         buttonSignup = (Button) findViewById(R.id.buttonSignup);
         buttonPhoto = (Button) findViewById(R.id.buttonPhoto);
         userPhoto = (ImageView) findViewById(R.id.userPhoto);
         progressDialog = new ProgressDialog(this);
-        uri = getIntent().getParcelableExtra("imageUri");
         //button click event
-        buttonSignup.setOnClickListener(this);
         buttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RgistPhotoActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, PICK_IMAGE_REQUST);
             }
         });
+        buttonSignup.setOnClickListener(this);
         textviewSingin.setOnClickListener(this);
     }
+    private void setInsertMode(){
+        editTextEmail.setText("");
+        editTextName.setText("");
+        editTextNickName.setText("");
+        Man.setChecked(false);
+        WoMan.setChecked(false);
+        buttonSignup.setEnabled(true);
+    }
+
     private  void registerUser(){
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -104,17 +124,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.show();
 
 
-        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() { // User생성
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() { // User생성
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-               if(task.isSuccessful()){
-                   finish();
-                   startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-               }else{
-                   textviewMessage.setText("에러유형\n : 이미 등록된 이메일입니다. \\n -암호 최소 6자리 이상 \\n - 서버에러");
-                   Toast.makeText(MainActivity.this, "등록에러!!", Toast.LENGTH_SHORT).show();
-               }
-               progressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    finish();
+                    postFirebaseDatabase(true);
+                    setInsertMode();
+                    startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+                } else {
+                    Toast.makeText(MainActivity.this, "에러유형 : 이미 등록된 이메일이거나 암호가 6자리 미만입니다.", Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
             }
         });
     }
@@ -126,4 +147,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(this, LoginActivity.class)); // 추가해줄 LoginActivity
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1){
+            if (resultCode==RESULT_OK){
+                try{
+                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+                    userPhoto.setImageBitmap(img);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+   public void  postFirebaseDatabase (boolean add){
+       mPostReference = FirebaseDatabase.getInstance().getReference();
+       Map<String, Object> childUpdates = new HashMap<>();
+       Map<String, Object> postValues = null;
+       if (add){
+           FirebasePost post = new FirebasePost(email, name, nickname,gender);
+           postValues = post.toMap();
+           System.out.println("ㅇㅇ");
+       }
+       childUpdates.put("/User List/" + email, postValues);
+       mPostReference.updateChildren(childUpdates);
+   }
 }

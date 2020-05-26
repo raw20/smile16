@@ -20,8 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FindActivity"></activity>
-        <activity android:name=".RgistPhotoActivity" />
+        <activity android:name=".FindActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,8 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".RegisterActivity"
+            tools:ignore="DuplicateActivity" />
         <activity android:name=".MainActivity" />
     </application>
 

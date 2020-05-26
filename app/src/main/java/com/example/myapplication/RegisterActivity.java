@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button buttonLogout;
     private TextView textivewDelete;
     private FirebaseAuth firebaseAuth;
-
+    private  ImageView userProfilePhoto;
     public RegisterActivity() {
     }
 
@@ -50,8 +51,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         textViewUserEmail = (TextView) findViewById(R.id.textviewUserEmail);
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
         textivewDelete = (TextView) findViewById(R.id.textviewDelete);
+        //userProfilePhoto = (ImageView) findViewById(R.id.userProfilePhoto);
         firebaseAuth = FirebaseAuth.getInstance(); // 유저가 로그인 하지 않은 상태라면 null 상태이고 액티비리 종료하고 LoginActivity로 이동
-        textViewUserEmail.setText("반갑습니다.\n"+textViewUserEmail+"으로 로그인하였습니다.");
+        Intent intent = getIntent();
+        if (firebaseAuth.getCurrentUser() == null){
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        textViewUserEmail.setText("반갑습니다.\n"+user.getEmail()+"으로 로그인하였습니다.");
         buttonLogout.setOnClickListener(this);
         textivewDelete.setOnClickListener(this);
     }
