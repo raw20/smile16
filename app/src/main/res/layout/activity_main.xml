@@ -70,8 +70,7 @@
             android:layout_height="wrap_content"
             android:text="남자"
             android:id="@+id/Man"
-            android:layout_weight="1"
-            android:checked="true"/>
+            android:layout_weight="1" />
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
