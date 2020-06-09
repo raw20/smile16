@@ -1,22 +1,23 @@
 package com.example.myapplication;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
+
+import android.net.Uri;
 import android.os.Bundle;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private  static final int MY_PERMISSION_STORAGE = 1111;
@@ -57,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String uid = firebaseAuth.getCurrentUser().getUid();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+
         DatabaseReference mRootRef = firebaseDatabase.getInstance().getReference();
         DatabaseReference userRef = mRootRef.child("UserList");
         userRef.child(uid).addValueEventListener(new ValueEventListener() {
@@ -66,14 +70,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String userName = (String) dataSnapshot.child("name").getValue();
                 textViewName.setText(userName+"님 어서오세요");
                 photoURL.setText(userImage);
-                Glide.with(RegisterActivity.this).asBitmap().load(photoURL).into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        userProfilePhoto.setImageBitmap(resource);
-                    }
-                });
-            }
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference photoRef = storage.getReferenceFromUrl("gs://smile16-201621220.appspot.com").child("images/" + userImage);
 
+                Glide.with(RegisterActivity.this).load(photoRef).override(90, 90).into(userProfilePhoto);
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
@@ -83,16 +84,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         buttonstart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterActivity.this, ChatMainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ChatStartActivity.class);
                 startActivity(intent);
             }
         });
         textivewDelete.setOnClickListener(this);
     }
     
-    public void  bindView (FirebasePost firebasePost){
-        Glide.with(userProfilePhoto.getContext()).load(firebasePost.getProfilePic()).into(userProfilePhoto);
-    }
+
 
     @Override
     public void onClick(View v) {

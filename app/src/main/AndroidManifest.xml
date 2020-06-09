@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ChatMainActivity"></activity>
+        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".ChatStartActivity" />
         <activity android:name=".FindActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity">

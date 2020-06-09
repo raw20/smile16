@@ -34,11 +34,20 @@ public class FirebasePost {
         return result;
     }
 
-    public String getProfilePic(){
-        return  photo;
+    public  void setNickname (String nickname){
+        this.nickname = nickname;
     }
 
-    public  void setPhotoUrl (String photo){
+    public  String getNickname () {
+        return nickname;
+    }
+
+    public  void setPhoto (String photo){
         this.photo = photo;
     }
+
+    public  String getProfilePic () {
+        return photo;
+    }
+
 }
