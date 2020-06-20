@@ -31,20 +31,24 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="7dp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/chat_sent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="send" />
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/chat_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/chat_sent"
+                android:text="전송"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </LinearLayout>

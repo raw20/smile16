@@ -21,21 +21,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".SubActivity"></activity>
+        <activity android:name=".ChatActivity"
+            android:transcriptMode="normal">
+        </activity>
         <activity android:name=".ChatStartActivity" />
         <activity android:name=".FindActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".MainActivity"/>
+        <activity
+            android:name=".Splash"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+
+        </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainPage" />
         <activity
             android:name=".RegisterActivity"
             tools:ignore="DuplicateActivity" />
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

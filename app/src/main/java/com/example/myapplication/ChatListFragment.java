@@ -3,7 +3,9 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ChatStartActivity extends AppCompatActivity {
+public class ChatListFragment extends Fragment {
     private EditText user_chat;
     private TextView user_edit, user_school, user_major, user_gender;
     private Button user_next;
@@ -33,22 +34,17 @@ public class ChatStartActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    public  ChatStartActivity() {}
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_start);
-
-        user_chat = (EditText) findViewById(R.id.user_chat);
-        user_school = (TextView) findViewById(R.id.user_school);
-        user_major = (TextView) findViewById(R.id.user_major);
-        user_gender = (TextView) findViewById(R.id.user_gender);
-        user_next = (Button) findViewById(R.id.user_next);
-        user_edit = (TextView) findViewById(R.id.user_edit);
-        chat_list = (ListView) findViewById(R.id.chat_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getString(R.string.app_name));
-        setSupportActionBar(toolbar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.activity_chat_start, container, false);
+        user_chat = (EditText) view.findViewById(R.id.user_chat);
+        user_school = (TextView) view.findViewById(R.id.user_school);
+        user_major = (TextView) view.findViewById(R.id.user_major);
+        user_gender = (TextView) view.findViewById(R.id.user_gender);
+        user_next = (Button) view.findViewById(R.id.user_next);
+        user_edit = (TextView) view.findViewById(R.id.user_edit);
+        chat_list = (ListView) view.findViewById(R.id.chat_list);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String uid = firebaseAuth.getCurrentUser().getUid();
@@ -67,15 +63,13 @@ public class ChatStartActivity extends AppCompatActivity {
                 user_school.setText(userSchool);
                 user_major.setText(userMajor);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-
         user_next.setOnClickListener(new View.OnClickListener() { //방만들기
             @Override
             public void onClick(View v) { // 방만들기를 생성 후 방 제목과 유저의 제목을 chatActivity로 보내준다.
-                Intent intent = new Intent(ChatStartActivity.this, ChatActivity.class);
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("chatName", user_chat.getText().toString());
                 intent.putExtra("nickname", user_edit.getText().toString());
                 intent.putExtra("gender", user_gender.getText().toString());
@@ -84,12 +78,11 @@ public class ChatStartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         showChatList();
+        return view;
     }
-
     private void showChatList() { //현재 생성된 방 목록을 보여준다.
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1);
         chat_list.setAdapter(adapter);
         databaseReference.child("chat").addChildEventListener(new ChildEventListener() {
             @Override
@@ -111,4 +104,5 @@ public class ChatStartActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
     }
+
 }

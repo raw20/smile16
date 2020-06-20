@@ -1,8 +1,5 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -14,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +21,10 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,12 +40,13 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static  final  int PICK_IMAGE_REQUST = 1;
-    String strGender;
+    String strGender, strSchool, strMajor;
     EditText editTextEmail;
     EditText editTextPassword;
     EditText editTextName, editTextNickName;
@@ -54,26 +57,92 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageView userPhoto;
     RadioGroup GenderGroup;
     RadioButton GenderOption;
+    FirebaseDatabase database;
+    DatabaseReference reference;
     StorageReference mStorageRef;
     ProgressDialog progressDialog;
 
     //define firebase object
     FirebaseAuth firebaseAuth; //Firebase에 이메일과 비밀번호를 저장하기 위한 변수
-    private ArrayAdapter adapter;
-    private Spinner spinner;
+    private ArrayAdapter <CharSequence> adapter1, adapter2;
+    private Spinner spinner1, spinner2;
     private DatabaseReference mDatabase; // Firebase Realtime에 다른 변수들을 저장하기위한 변수
     private Uri filePath;
     private StorageTask uploadTask;
     private static final String TAG = "MainActivity";
-
+    String choice_School="";
+    String choice_Major="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        spinner = (Spinner) findViewById(R.id.spinnerMajor); // 과 선택할 때 과들을 나열하게하는 레이아웃
-        adapter = ArrayAdapter.createFromResource(this, R.array.Major, android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinner1 = (Spinner) findViewById(R.id.spinnerSchool); // 과 선택할 때 과들을 나열하게하는 레이아웃
+        spinner2 =  (Spinner) findViewById(R.id.spinnerMajor);
+        adapter1 = ArrayAdapter.createFromResource(this, R.array.School, android.R.layout.simple_spinner_dropdown_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter1);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(adapter1.getItem(position).equals("상명대학교")){
+                    choice_School = "상명대학교";
+                    adapter2 = ArrayAdapter.createFromResource(MainActivity.this, R.array.Major_smu, android.R.layout.simple_spinner_dropdown_item);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner2.setAdapter(adapter2);
+                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            choice_Major = adapter2.getItem(position).toString();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {}
+                    });
+                }else if (adapter1.getItem(position).equals("단국대학교")){
+                    choice_School = "단국대학교";
+                    adapter2 = ArrayAdapter.createFromResource(MainActivity.this, R.array.Major_dku, android.R.layout.simple_spinner_dropdown_item);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner2.setAdapter(adapter2);
+                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            choice_Major = adapter2.getItem(position).toString();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {}
+                    });
+                }else if (adapter1.getItem(position).equals("호서대학교")){
+                    choice_School = "호서대학교";
+                    adapter2 = ArrayAdapter.createFromResource(MainActivity.this, R.array.Major_hsu, android.R.layout.simple_spinner_dropdown_item);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner2.setAdapter(adapter2);
+                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            choice_Major = adapter2.getItem(position).toString();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {}
+                    });
+                }else if (adapter1.getItem(position).equals("백석대학교")){
+                    choice_School = "백석대학교";
+                    adapter2 = ArrayAdapter.createFromResource(MainActivity.this, R.array.Major_bu, android.R.layout.simple_spinner_dropdown_item);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner2.setAdapter(adapter2);
+                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            choice_Major = adapter2.getItem(position).toString();
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {}
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
         firebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorageRef = FirebaseStorage.getInstance().getReference("Images");
@@ -170,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String name = editTextName.getText().toString().trim();
         String nickname = editTextNickName.getText().toString().trim();
         String gender = GenderOption.getText().toString().trim();
+        String school = spinner1.getSelectedItem().toString();
+        String major = spinner2.getSelectedItem().toString();
         String photo;
         photo = System.currentTimeMillis() + "." + getExtension(filePath);
         StorageReference Ref = mStorageRef.child(photo);
@@ -187,15 +258,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
         // Write new user
-        writeNewUser(user.getUid(), name, user.getEmail(), nickname, gender, photo);
+        writeNewUser(user.getUid(), name, user.getEmail(), nickname, gender, photo, school, major);
 
         // Go to MainActivity
         startActivity(new Intent(MainActivity.this, RegisterActivity.class));
         finish();
     }
 
-    private void writeNewUser(String userId, String name, String email, String nickname, String genger, String photo) { //Firebase Realtime에 이름과 닉네임 사진 등 다른 값들을 저장하기위한 함수
-        FirebasePost user = new FirebasePost(name, email, nickname, genger, photo);
+    private void writeNewUser(String userId, String name, String email, String nickname, String genger, String photo, String school, String major) { //Firebase Realtime에 이름과 닉네임 사진 등 다른 값들을 저장하기위한 함수
+        FirebasePost user = new FirebasePost(name, email, nickname, genger, photo, school, major);
 
         mDatabase.child("UserList").child(userId).setValue(user);
     }

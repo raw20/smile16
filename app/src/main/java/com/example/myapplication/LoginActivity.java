@@ -1,8 +1,6 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,19 +8,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -32,15 +28,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     TextView textviewSingin;
     TextView textviewMessage;
     TextView textviewFindPassword;
+    ImageView loginPhoto;
     ProgressDialog progressDialog;
     //define firebase object
     FirebaseAuth firebaseAuth;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        Intent intent = new Intent(this, Splash.class);
+        startActivity(intent);
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() != null) {
             //이미 로그인 되었다면 이 액티비티를 종료함
@@ -53,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         textviewSingin = (TextView) findViewById(R.id.textViewSignin);
         textviewMessage = (TextView) findViewById(R.id.textviewMessage);
+        loginPhoto = (ImageView) findViewById(R.drawable.ic_home_black_24dp);
         textviewFindPassword = (TextView) findViewById(R.id.textViewFindpassword);
         buttonSignin = (Button) findViewById(R.id.buttonSignup);
         progressDialog = new ProgressDialog(this);

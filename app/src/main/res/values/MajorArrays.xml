@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="Major">
+    <string-array name="School">
+        <item>상명대학교</item>
+        <item>단국대학교</item>
+        <item>호서대학교</item>
+        <item>백석대학교</item>
+    </string-array>
+    <string-array name="Major_smu">
         <item>스마트정보통신공학과</item>
         <item>간호학과</item>
         <item>연극</item>
         <item>패션디자인</item>
     </string-array>
+    <string-array name="Major_dku">
+        <item>경영공학과</item>
+        <item>간호학과</item>
+        <item>물리학과</item>
+        <item>생활체육학과</item>
+    </string-array>
+    <string-array name="Major_hsu">
+        <item>경영학부</item>
+        <item>유아교육학과</item>
+        <item>공연예술</item>
+        <item>영어영문학과</item>
+    </string-array>
+    <string-array name="Major_bu">
+        <item>간호학과</item>
+        <item>유아교육과</item>
+        <item>기독교학부</item>
+        <item>스포츠과학부</item>
+    </string-array>
+
+
 </resources>
