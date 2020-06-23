@@ -1,11 +1,12 @@
 package com.example.myapplication;
 
-public class ListViewItem {
+public class ChatListViewItem {
     private String uImage;
     private String uNick;
     private String uSchool;
     private String uMajor;
-    private String uChat;
+    private String uChatName;
+
 
     public String getuImage(){return uImage;}
 
@@ -22,15 +23,14 @@ public class ListViewItem {
     }
 
     public String getuChat() {
-        return uChat;
+        return uChatName;
     }
 
-    public ListViewItem( String uImage, String uNick, String uSchool, String uMajor, String uChat){
+    public ChatListViewItem ( String uImage, String uNick, String uSchool, String uMajor, String uChatName){
         this.uImage = uImage;
         this.uNick=uNick;
         this.uSchool=uSchool;
         this.uMajor=uMajor;
-        this.uChat=uChat;
+        this.uChatName=uChatName;
     }
-
 }

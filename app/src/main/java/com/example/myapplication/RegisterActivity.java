@@ -1,4 +1,5 @@
 package com.example.myapplication;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button buttonLogout, buttonstart;
     private TextView textivewDelete;
     private FirebaseAuth firebaseAuth;
+    private FirebasePost firebasePost;
     private ImageView userProfilePhoto;
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRootRef = firebaseDatabase.getInstance().getReference();
@@ -66,11 +68,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String userName = (String) dataSnapshot.child("name").getValue();
                 String userImage = (String) dataSnapshot.child("photo").getValue();
-                photoURL.setText(userImage);
                 StorageReference getStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://smile16-201621220.appspot.com/Images/" + userImage);
-                //Picasso.get().load(pathReference).into(userProfilePhoto);
                 Glide.with(RegisterActivity.this).load(getStorageReference).into(userProfilePhoto);
                 textViewName.setText(userName+"님 어서오세요");
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}

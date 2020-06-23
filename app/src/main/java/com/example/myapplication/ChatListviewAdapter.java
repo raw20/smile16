@@ -15,14 +15,14 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ListviewAdapter extends BaseAdapter {
+public class ChatListviewAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private ArrayList<ListViewItem> adapter;
+    private ArrayList<ChatListViewItem> adapter;
     private Context context;
     private int layout;
     private Calendar items;
 
-    public ListviewAdapter(Context context, int layout, ArrayList<ListViewItem> adapter){
+    public ChatListviewAdapter(Context context, int layout, ArrayList<ChatListViewItem> adapter){
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.adapter=adapter;
         this.context=context;
@@ -49,7 +49,7 @@ public class ListviewAdapter extends BaseAdapter {
         if (convertView == null){
             convertView=inflater.inflate(layout,parent,false);
         }
-        ListViewItem listViewItem = adapter.get(position);
+        ChatListViewItem listViewItem = adapter.get(position);
         final ImageView userImage = (ImageView) convertView.findViewById(R.id.userImage);
         StorageReference getStorageReference = FirebaseStorage.getInstance().getReferenceFromUrl("gs://smile16-201621220.appspot.com/Images/" + listViewItem.getuImage() );
         Glide.with(context).load(getStorageReference).into(userImage);
@@ -59,9 +59,8 @@ public class ListviewAdapter extends BaseAdapter {
         school.setText(listViewItem.getUschool());
         TextView major = (TextView) convertView.findViewById(R.id.userMajor);
         major.setText(listViewItem.getuMajor());
-        TextView chat = (TextView) convertView.findViewById(R.id.userChat);
+        TextView chat = (TextView) convertView.findViewById(R.id.userChatName);
         chat.setText(listViewItem.getuChat());
         return  convertView;
     }
-
 }

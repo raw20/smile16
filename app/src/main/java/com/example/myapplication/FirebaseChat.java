@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 public class FirebaseChat {
+    private String photo;
     private String nickname;
     private String gender;
     private String school;
@@ -8,8 +9,8 @@ public class FirebaseChat {
     private String message;
 
     public  FirebaseChat() {}
-    public  FirebaseChat( String nickname, String gender, String school, String major, String message) {
-
+    public  FirebaseChat(String photo, String nickname, String gender, String school, String major, String message) {
+        this.photo = photo;
         this.nickname = nickname;
         this.gender = gender;
         this.school = school;
@@ -58,4 +59,7 @@ public class FirebaseChat {
         return school;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
 }

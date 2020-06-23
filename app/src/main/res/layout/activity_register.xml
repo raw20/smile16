@@ -45,6 +45,7 @@
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:text=""/>
+
         <Button
             android:id="@+id/buttonstart"
             android:text="시작하기"

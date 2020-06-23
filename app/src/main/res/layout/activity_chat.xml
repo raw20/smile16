@@ -43,7 +43,11 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"/>
-
+            <Button
+                android:id="@+id/map_sent"
+                android:text="맛집추천"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/chat_sent"
                 android:text="전송"
