@@ -123,7 +123,7 @@ public class ChatListFragment extends Fragment implements RewardedVideoAdListene
         return view;
     }
 
-    private void loadReWardedVideoAd() {
+    private void loadReWardedVideoAd() { //광고 불러오는 함수
         mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
                 new AdRequest.Builder().build());
     }
@@ -177,7 +177,7 @@ public class ChatListFragment extends Fragment implements RewardedVideoAdListene
     }
 
     @Override
-    public void onRewardedVideoAdLoaded() {
+    public void onRewardedVideoAdLoaded() { //보상형 광고 영상을 불러온다.
         Toast.makeText(getActivity(), "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
     }
 
@@ -199,7 +199,7 @@ public class ChatListFragment extends Fragment implements RewardedVideoAdListene
     }
 
     @Override
-    public void onRewarded(RewardItem reward) {
+    public void onRewarded(RewardItem reward) { // 광고 시청후 보상이 지급된다.
         Toast.makeText(getActivity(), "onRewarded! currency: " + reward.getType() + "  amount: " + reward.getAmount(), Toast.LENGTH_SHORT).show();
         addCoins(reward.getAmount());
     }

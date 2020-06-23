@@ -38,11 +38,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,11 +75,6 @@ public class MapActivity extends AppCompatActivity
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
-    private String CHAT_NAME;
-    private String USER_NAME, USER_GENDER, USER_SCHOOL, USER_MAJOR, USER_PHOTO;
-    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
     private View mLayout;
 
     @Override
@@ -129,24 +119,8 @@ public class MapActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = firebaseAuth.getCurrentUser().getUid();
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference mRootRef = firebaseDatabase.getInstance().getReference();
-        Intent intent = getIntent();
-        CHAT_NAME = intent.getStringExtra("chatName");
-        USER_NAME = intent.getStringExtra("nickname");
-        USER_GENDER = intent.getStringExtra("gender");
-        USER_SCHOOL = intent.getStringExtra("school");
-        USER_MAJOR =  intent.getStringExtra("major");
-        USER_PHOTO =  intent.getStringExtra("photo");
 
-    }
-    private void addMessage(DataSnapshot dataSnapshot, ArrayList<ListViewItem> data) {
-        FirebaseChat firebaseChat = dataSnapshot.getValue(FirebaseChat.class);
-        ListViewItem user = new ListViewItem(firebaseChat.getPhoto(), firebaseChat.getNickname(), firebaseChat.getSchool(), firebaseChat.getMajor(), firebaseChat.getMessage());
-        data.add(user);
+
     }
 
     @Override
@@ -340,7 +314,7 @@ public class MapActivity extends AppCompatActivity
         mMap.moveCamera(cameraUpdate);
     }
 
-    private boolean checkPermission() {
+    private boolean checkPermission() { //위치 권한 하용을 체크
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
@@ -467,6 +441,7 @@ public class MapActivity extends AppCompatActivity
                     Marker item = mMap.addMarker(markerOptions);
                     previous_marker.add(item);
                 }
+                //중복 마커 제거
                 HashSet<Marker> hashSet = new HashSet<Marker>();
                 hashSet.addAll(previous_marker);
                 previous_marker.clear();
@@ -476,7 +451,7 @@ public class MapActivity extends AppCompatActivity
 
     }
 
-    public void showPlaceInformation(LatLng location)
+    public void showPlaceInformation(LatLng location) //주번 음식점을 보여주는 함수
     {
         mMap.clear();
 
@@ -486,13 +461,13 @@ public class MapActivity extends AppCompatActivity
         new NRPlaces.Builder()
                 .listener(MapActivity.this)
                 .key("AIzaSyD4fSvzBe2OfCRlsa1NLomL8UaX5x_HeNw")
-                .latlng(location.latitude, location.longitude)
-                .radius(1000)
-                .type(PlaceType.RESTAURANT).language("ko","KR")
+                .latlng(location.latitude, location.longitude) //현재위치
+                .radius(1000) //1km 내에서 검색
+                .type(PlaceType.RESTAURANT).language("ko","KR") //음식점
                 .build()
                 .execute();
     }
-    public void showPlaceInformaion2(LatLng location)
+    public void showPlaceInformaion2(LatLng location) // 주변 카폐를 보여주는 함수
     {
         mMap.clear();
 
@@ -504,7 +479,7 @@ public class MapActivity extends AppCompatActivity
                 .key("AIzaSyD4fSvzBe2OfCRlsa1NLomL8UaX5x_HeNw")
                 .latlng(location.latitude, location.longitude)
                 .radius(1000)
-                .type(PlaceType.CAFE).language("ko","KR")
+                .type(PlaceType.CAFE).language("ko","KR") //카폐
                 .build()
                 .execute();
     }
