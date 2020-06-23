@@ -79,10 +79,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void removeMessage(DataSnapshot dataSnapshot, ArrayList<ListViewItem> data) {
         FirebaseChat firebaseChat = dataSnapshot.getValue(FirebaseChat.class);
-        ListViewItem user = null;
-        if (firebaseChat != null) {
-            user = new ListViewItem(firebaseChat.getPhoto(), firebaseChat.getNickname(), firebaseChat.getSchool(), firebaseChat.getMajor(), firebaseChat.getMessage());
-        }
+        ListViewItem user = new ListViewItem(firebaseChat.getPhoto(), firebaseChat.getNickname(), firebaseChat.getSchool(), firebaseChat.getMajor(), firebaseChat.getMessage());
         data.remove(user);
     }
 

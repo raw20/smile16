@@ -38,6 +38,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,7 +63,6 @@ public class MapActivity extends AppCompatActivity
         PlacesListener{
     private GoogleMap mMap;
     private Marker currentMarker = null;
-
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;
@@ -76,7 +80,11 @@ public class MapActivity extends AppCompatActivity
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
-
+    private String CHAT_NAME;
+    private String USER_NAME, USER_GENDER, USER_SCHOOL, USER_MAJOR, USER_PHOTO;
+    private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference = firebaseDatabase.getReference();
     private View mLayout;
 
     @Override
@@ -121,8 +129,25 @@ public class MapActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String uid = firebaseAuth.getCurrentUser().getUid();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference mRootRef = firebaseDatabase.getInstance().getReference();
+        Intent intent = getIntent();
+        CHAT_NAME = intent.getStringExtra("chatName");
+        USER_NAME = intent.getStringExtra("nickname");
+        USER_GENDER = intent.getStringExtra("gender");
+        USER_SCHOOL = intent.getStringExtra("school");
+        USER_MAJOR =  intent.getStringExtra("major");
+        USER_PHOTO =  intent.getStringExtra("photo");
 
+    }
+    private void addMessage(DataSnapshot dataSnapshot, ArrayList<ListViewItem> data) {
+        FirebaseChat firebaseChat = dataSnapshot.getValue(FirebaseChat.class);
+        ListViewItem user = new ListViewItem(firebaseChat.getPhoto(), firebaseChat.getNickname(), firebaseChat.getSchool(), firebaseChat.getMajor(), firebaseChat.getMessage());
+        data.add(user);
+    }
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -164,6 +189,7 @@ public class MapActivity extends AppCompatActivity
                 Log.d(TAG, "onMapClick : ");
             }
         });
+
     }
 
     LocationCallback locationCallback = new LocationCallback() {
@@ -422,7 +448,6 @@ public class MapActivity extends AppCompatActivity
     public void onPlacesStart() {
 
     }
-
     @Override
     public void onPlacesSuccess(final List<Place> places) {
         runOnUiThread(new Runnable() {

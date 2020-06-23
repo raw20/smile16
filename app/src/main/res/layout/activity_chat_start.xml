@@ -88,7 +88,7 @@
             <TextView
                 android:text="코인이 없다면 여기를 누르세요."
                 android:id="@+id/user_AD"
-                android:layout_width="200dp"
+                android:layout_width="250dp"
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"/>
 

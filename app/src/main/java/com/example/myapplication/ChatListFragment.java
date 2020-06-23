@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -30,8 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class ChatListFragment extends Fragment implements RewardedVideoAdListener {
     private EditText user_chat;
@@ -68,7 +67,7 @@ public class ChatListFragment extends Fragment implements RewardedVideoAdListene
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getActivity());
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         loadReWardedVideoAd();
-        coinCount = 999;
+        coinCount = 0;
         user_Coin.setText("남은 코인 : " + coinCount);
 
         user_AD.setOnClickListener(new View.OnClickListener() {
@@ -131,16 +130,13 @@ public class ChatListFragment extends Fragment implements RewardedVideoAdListene
 
     private void showChatList() { //현재 생성된 방 목록을 보여준다.
         // 리스트 어댑터 생성 및 세팅
-        final ArrayList<ChatListViewItem> data = new ArrayList<>();
-        final ChatListviewAdapter adapter = new ChatListviewAdapter(getActivity(), R.layout.chatitem, data);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1);
+        chat_list.setAdapter(adapter);
         databaseReference.child("chat").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull final DataSnapshot dataSnapshot, @Nullable String s) {
                 Log.e("LOG", "dataSnapshot.getKey() : " + dataSnapshot.getKey());
-                ChatListViewItem user = new ChatListViewItem(user_photo.getText().toString(), user_edit.getText().toString(), user_school.getText().toString(), user_major.getText().toString(), dataSnapshot.getKey());
-                data.add(user);
-                chat_list.setAdapter(null);
-                chat_list.setAdapter(adapter);
+                adapter.add(dataSnapshot.getKey());
                 chat_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -150,7 +146,7 @@ public class ChatListFragment extends Fragment implements RewardedVideoAdListene
                             Intent intent = new Intent(getActivity(), ChatActivity.class);
                             coinCount = coinCount -5;
                             user_Coin.setText("남은 코인 : " + coinCount);
-                            intent.putExtra("chatName",dataSnapshot.getKey());
+                            intent.putExtra("chatName",((TextView) view).getText().toString());
                             intent.putExtra("nickname", user_edit.getText().toString());
                             intent.putExtra("school", user_school.getText().toString());
                             intent.putExtra("major", user_major.getText().toString());
