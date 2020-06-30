@@ -4,7 +4,7 @@
   ![KakaoTalk_20200630_190625160](https://user-images.githubusercontent.com/62588402/86115926-978d3380-bb07-11ea-90dc-10881edd0aa3.jpg)
   # 2. 어플 구성 Activity
   ## MainActivity
-  ![KakaoTalk_20200630_181503725](https://user-images.githubusercontent.com/62588402/86111559-dcae6700-bb01-11ea-9370-d9936fd062eb.png)
+  ![KakaoTalk_20200630_181503725](https://user-images.githubusercontent.com/62588402/86111559-dcae6700-bb01-11ea-9370-d9936fd062eb.png=100x20)
   처음에 어플을 실행하면 로그인화면으로 넘어온다. 필요한 정보들을 입력하고 가입하기를 누르면 LginActivity로 넘어간다.
   ## LoginActivity
  ![KakaoTalk_20200630_181503725_01](https://user-images.githubusercontent.com/62588402/86111560-dcae6700-bb01-11ea-97db-fa2b8f40860b.png)
