@@ -16,12 +16,16 @@
 여기서는 방을 생성할수 있고 생성된 방에 들어갈 수 있다. 그리고 채팅방을 생성하거나 들어가려면 5코인이 필요한데 처음에 사용자는 0코인이 주어진다. 코인을 얻기 위해서는 '코인이 없다면 여기를 누르세요'를 누르면 동영상 광고가 출력되고 광고시청이 끝났으면 10코인이 지급된다.
   ## ChatActivity
 ![KakaoTalk_20200630_181503725_04](https://user-images.githubusercontent.com/62588402/86111565-dddf9400-bb01-11ea-9f08-e8fd31d5aec5.png)
+사용자가 입력창에 텍스트를 입력해 전송버튼을 누르면 본격적으로 채팅방 생성이 완료되고 ChatListFragment에서 채팅방목록에 나열된다. 그리고 맛집추천을 누르면 MapActivity로 넘어간다. 
   ## MapActivity
 ![KakaoTalk_20200630_181503725_05](https://user-images.githubusercontent.com/62588402/86111554-dae4a380-bb01-11ea-881f-2ac4a778ebeb.png)
+사용자가 현재위치를 불러온후 사용자 주변의 지도를 출력한다. (시간이 조금 걸림) 후에 현재 위치 주변 음식점이나 카페를 누르면 지도에 음식점이나 카페들이 출력된다. 
   ## ChatActivity
 ![KakaoTalk_20200630_181503725_06](https://user-images.githubusercontent.com/62588402/86111558-dc15d080-bb01-11ea-9513-f4e3b2cbb427.png)
+다른 사용자와 대화를 할수 있다
  ## UserProfileFrgment
 ![KakaoTalk_20200630_185139547](https://user-images.githubusercontent.com/62588402/86112340-cf45ac80-bb02-11ea-974c-e60256a47b47.png)
+사용자의 프로필 사진과 닉네임을 변경할수 있다. 변경이 완료되었으면 다시 RegisterActvity로 넘어간다.
   
   
 
