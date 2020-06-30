@@ -8,13 +8,14 @@
  ![KakaoTalk_20200630_181503725_01](https://user-images.githubusercontent.com/62588402/86111560-dcae6700-bb01-11ea-97db-fa2b8f40860b.png)
   ## RegisterActivity
  ![KakaoTalk_20200630_181503725_02](https://user-images.githubusercontent.com/62588402/86111562-dd46fd80-bb01-11ea-91d3-9ad1ae898e33.png)
- ##  SubActivity
+  ##  ChatListFragment
 ![KakaoTalk_20200630_181503725_03](https://user-images.githubusercontent.com/62588402/86111564-dd46fd80-bb01-11ea-8cdc-df0e6efe17a9.png)
- ## ChatActivity
+  ## ChatActivity
 ![KakaoTalk_20200630_181503725_04](https://user-images.githubusercontent.com/62588402/86111565-dddf9400-bb01-11ea-9f08-e8fd31d5aec5.png)
- ## MapActivity
+  ## MapActivity
 ![KakaoTalk_20200630_181503725_05](https://user-images.githubusercontent.com/62588402/86111554-dae4a380-bb01-11ea-881f-2ac4a778ebeb.png)
- ## ChatActivity
+  ## ChatActivity
 ![KakaoTalk_20200630_181503725_06](https://user-images.githubusercontent.com/62588402/86111558-dc15d080-bb01-11ea-9513-f4e3b2cbb427.png)
-
+ ## UserProfileFrgment
+![KakaoTalk_20200630_185139547](https://user-images.githubusercontent.com/62588402/86112340-cf45ac80-bb02-11ea-974c-e60256a47b47.png)
 
