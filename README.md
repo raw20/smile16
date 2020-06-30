@@ -4,13 +4,16 @@
   # 2. 어플 구성 Activity
   ## MainActivity
   ![KakaoTalk_20200630_181503725](https://user-images.githubusercontent.com/62588402/86111559-dcae6700-bb01-11ea-9370-d9936fd062eb.png)
-  처음에 어플을 실행하면 로그
+  처음에 어플을 실행하면 로그인화면으로 넘어온다. 필요한 정보들을 입력하고 가입하기를 누르면 LginActivity로 넘어간다.
   ## LoginActivity
  ![KakaoTalk_20200630_181503725_01](https://user-images.githubusercontent.com/62588402/86111560-dcae6700-bb01-11ea-97db-fa2b8f40860b.png)
+ 회원가입 성공후 로그인화면으로 넘어온다.
   ## RegisterActivity
  ![KakaoTalk_20200630_181503725_02](https://user-images.githubusercontent.com/62588402/86111562-dd46fd80-bb01-11ea-91d3-9ad1ae898e33.png)
+ 로그인이 성공되었으면 유저의 프로필사진과 이메일, 이름을 불러온다. 시작하기 버튼을 누르면 ChatListFragment로 넘어간다.
   ##  ChatListFragment
 ![KakaoTalk_20200630_181503725_03](https://user-images.githubusercontent.com/62588402/86111564-dd46fd80-bb01-11ea-8cdc-df0e6efe17a9.png)
+여기서는 방을 생성할수 있고 생성된 방에 들어갈 수 있다. 그리고 채팅방을 생성하거나 들어가려면 5코인이 필요한데 처음에 사용자는 0코인이 주어진다. 코인을 얻기 위해서는 '코인이 없다면 여기를 누르세요'를 누르면 동영상 광고가 출력되고 광고시청이 끝났으면 10코인이 지급된다.
   ## ChatActivity
 ![KakaoTalk_20200630_181503725_04](https://user-images.githubusercontent.com/62588402/86111565-dddf9400-bb01-11ea-9f08-e8fd31d5aec5.png)
   ## MapActivity
