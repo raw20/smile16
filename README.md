@@ -4,6 +4,7 @@
   # 2. 어플 구성 Activity
   ## MainActivity
   ![KakaoTalk_20200630_181503725](https://user-images.githubusercontent.com/62588402/86111559-dcae6700-bb01-11ea-9370-d9936fd062eb.png)
+  처음에 어플을 실행하면 로그
   ## LoginActivity
  ![KakaoTalk_20200630_181503725_01](https://user-images.githubusercontent.com/62588402/86111560-dcae6700-bb01-11ea-97db-fa2b8f40860b.png)
   ## RegisterActivity
